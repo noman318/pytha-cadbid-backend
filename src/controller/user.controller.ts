@@ -5,19 +5,28 @@ import bcryptjs from "bcryptjs";
 const createUser = async (req: Request, res: Response) => {
   // console.log("req.body", req.body);
   const {
-    sName,
-    sEmail,
-    sMobile,
-    sUserName,
-    sPassword,
-    sUserType,
-    sLevel,
-    sOtpAuth,
-    nCompanyID,
+    name,
+    email,
+    mobile,
+    user_id,
+    password,
+    user_type,
+    level,
+    company_id,
+    otp_auth,
   } = req.body;
+  const sName = name;
+  const sEmail = email;
+  const sMobile = mobile;
+  const sUserName = user_id;
+  const sPassword = password;
+  const sUserType = user_type;
+  const sLevel = level;
+  const sOtpAuth = otp_auth;
+  const nCompanyID = company_id;
   try {
     let company = await prisma.mcompany.findUnique({
-      where: { nCompanyID: nCompanyID },
+      where: { nCompanyID: +nCompanyID },
     });
 
     if (!company) {
@@ -30,7 +39,6 @@ const createUser = async (req: Request, res: Response) => {
         },
       });
     }
-
     const hashedPassword = await bcryptjs.hash("123456", 10);
     const user = await prisma.muser.create({
       data: {
@@ -42,7 +50,7 @@ const createUser = async (req: Request, res: Response) => {
         sPassword: hashedPassword,
         sOtpAuth,
         sLevel,
-        nCompanyID: company?.nCompanyID || nCompanyID,
+        nCompanyID: company?.nCompanyID || +nCompanyID,
       },
     });
     return res.json(user);
