@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model muser {
+  nUserID    Int      @id @default(autoincrement())
+  sName      String   @db.VarChar(255)
+  sEmail     String?   @db.VarChar(255)
+  sMobile    String?  @db.VarChar(255)
+  sUserName  String   @db.VarChar(255)
+  sPassword  String   @db.VarChar(255)
+  sUserType  String   @db.VarChar(255)
+  sLevel     String   @db.VarChar(255)
+  sOtpAuth   String?   @db.VarChar(255)
+  mcompany   mcompany @relation(fields: [nCompanyID], references: [nCompanyID])
+  nCompanyID Int
+}
+
+model mcompany {
+  nCompanyID                     Int       @id @default(autoincrement())
+  sName                          String    @db.VarChar(100)
+  sAddr1                         String    @db.VarChar(100)
+  sAddr2                         String?   @db.VarChar(100)
+  sAddr3                         String?   @db.VarChar(100)
+  sLogoPath                      String?   @db.VarChar(100)
+  nCurrencyID                    Int?      @db.UnsignedInt
+  sApplicableTaxName             String?   @db.VarChar(20)
+  nMarginPercentage              Float?
+  nWastageMaterialPercentage     Float?
+  nWastageEdgebrandingPercentage Float?
+  sPriceLevel1Name               String?   @db.VarChar(20)
+  sPriceLevel2Name               String?   @db.VarChar(20)
+  sPriceLevel3Name               String?   @db.VarChar(20)
+  nImageHeight                   Int?      @default(130) @db.UnsignedInt
+  sApplicableTaxNo               String?   @db.VarChar(100)
+  nNumberofUsers                 Int?      @db.UnsignedInt
+  bActive                        Int?      @db.UnsignedTinyInt
+  sDefaultTerms1                 String?   @db.VarChar(2000)
+  sDefaultTerms2                 String?   @db.VarChar(2000)
+  sDefaultTerms3                 String?   @db.VarChar(2000)
+  bTermsShow                     Int?      @db.TinyInt
+  sReportRequired                String?   @db.VarChar(50)
+  sCategorywiseReportColumns     String?   @db.VarChar(50)
+  sConsolidatedReportTerms       String?   @db.VarChar(10)
+  sCategoryReportTerms           String?   @db.VarChar(10)
+  sProcessReportTerms            String?   @db.VarChar(10)
+  sCuttingListReportColumns      String    @default("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20") @db.VarChar(100)
+  sReportLabel1                  String?   @db.VarChar(20)
+  sReportLabel2                  String?   @db.VarChar(20)
+  sReportLabel3                  String?   @db.VarChar(20)
+  sReportLabel4                  String?   @db.VarChar(20)
+  bCompanyShow                   Int?      @default(0) @db.UnsignedTinyInt
+  sCompanyKey                    String    @default("0") @db.VarChar(100)
+  sUploadType                    String    @default("S3") @db.VarChar(10)
+  sConsolidatedReportColumns     String?   @db.VarChar(10)
+  bOTPRequired                   Int?      @default(0) @db.UnsignedTinyInt
+  sSMSURL                        String?   @db.VarChar(1000)
+  sNameLabel                     String?   @db.VarChar(30)
+  sL1Label                       String?   @db.VarChar(30)
+  sL2Label                       String?   @db.VarChar(30)
+  sL3Label                       String?   @db.VarChar(30)
+  sAreaLabel                     String?   @db.VarChar(30)
+  sDescriptionLabel              String?   @db.VarChar(30)
+  sCoreMaterialLabel             String?   @db.VarChar(30)
+  sFinishLabel                   String?   @db.VarChar(30)
+  sEdgebandingLabel              String?   @db.VarChar(30)
+  sFittingsLabel                 String?   @db.VarChar(30)
+  sArticleCodeLabel              String?   @db.VarChar(30)
+  sVendorCodeLabel               String?   @db.VarChar(30)
+  sWeightLabel                   String?   @db.VarChar(30)
+  sPerimeterLabel                String?   @db.VarChar(30)
+  sCutLengthLabel                String?   @db.VarChar(30)
+  sCutWidthLabel                 String?   @db.VarChar(30)
+  sEL1Label                      String?   @db.VarChar(30)
+  sEL2Label                      String?   @db.VarChar(30)
+  sSL1Label                      String?   @db.VarChar(30)
+  sSL2Label                      String?   @db.VarChar(30)
+  sUserAttr1Label                String?   @db.VarChar(30)
+  sUserAttr2Label                String?   @db.VarChar(30)
+  sUserAttr3Label                String?   @db.VarChar(30)
+  sUserAttr4Label                String?   @db.VarChar(30)
+  sUserAttr5Label                String?   @db.VarChar(30)
+  sUserAttr6Label                String?   @db.VarChar(30)
+  sUserAttr7Label                String?   @db.VarChar(30)
+  sUserAttr8Label                String?   @db.VarChar(30)
+  sGroupNoLabel                  String?   @db.VarChar(30)
+  sELLabel                       String?   @db.VarChar(30)
+  sSLLabel                       String?   @db.VarChar(30)
+  sItemCustomeField1Label        String?   @db.VarChar(30)
+  sItemCustomeField2Label        String?   @db.VarChar(30)
+  sItemCustomeField3Label        String?   @db.VarChar(30)
+  sItemCustomeField4Label        String?   @db.VarChar(30)
+  sSiteVisitChargesLabel         String?   @db.VarChar(30)
+  sManufacturingCostLabel        String?   @db.VarChar(30)
+  sInstallationAssemblyLabel     String?   @db.VarChar(30)
+  sAttachInDiscussionReq         String    @default("Yes") @db.VarChar(5)
+  sReplaceFuncReq                String    @default("Yes") @db.VarChar(5)
+  sSMSUtilityReq                 String    @default("Yes") @db.VarChar(5)
+  sCustSMSModuleReq              String    @default("Yes") @db.VarChar(5)
+  nCompanyOneTimeFee             Float?
+  dtCompAnnExpiryDate            String?   @db.VarChar(11)
+  sCompanyID                     String?   @db.VarChar(50)
+  nPackageMasterID               Int       @db.UnsignedInt
+  nLogoPosition                  Int?      @default(0) @db.UnsignedTinyInt
+  nAddressPosition               Int?      @default(0) @db.UnsignedTinyInt
+  sNestingReq                    String    @default("No") @db.VarChar(5)
+  bNestingPriceCalMethod         Int?      @default(0) @db.UnsignedTinyInt
+  nSawKerfValue                  Float     @default(0)
+  nMinWasteSize                  Float     @default(0)
+  nLeftTrim                      Float     @default(0)
+  nRightTrim                     Float     @default(0)
+  nBottomTrim                    Float     @default(0)
+  nTopTrim                       Float     @default(0)
+  nCuttingComplexity             Int?      @default(6) @db.UnsignedTinyInt
+  bCuttingLayoutMin              Int?      @default(0) @db.UnsignedTinyInt
+  nMaxLayoutSize                 Int?      @db.UnsignedInt
+  bMinmizePanelRotation          Int?      @default(0) @db.TinyInt
+  bConsolidatedReportShowProcess Int?      @default(1) @db.UnsignedTinyInt
+  sNewItemFeatureReq             String    @default("No") @db.VarChar(5)
+  sUserDefinedChargesLabel2      String?   @db.VarChar(30)
+  sUserDefinedChargesLabel3      String?   @db.VarChar(30)
+  sUserDefinedChargesLabel4      String?   @db.VarChar(30)
+  sCutPartsLabel1                String?   @db.VarChar(50)
+  sCutPartsLabel2                String?   @db.VarChar(50)
+  sCutPartsLabel3                String?   @db.VarChar(50)
+  sCutPartsLabel4                String?   @db.VarChar(50)
+  sCutPartsLabel5                String?   @db.VarChar(50)
+  sCutPartsLabel6                String?   @db.VarChar(50)
+  sMRPReportCatIds               String?   @db.VarChar(1000)
+  sMRPReportProcessIds           String?   @db.VarChar(1000)
+  nNoofQuotperUser               Int?      @default(400)
+  nLeftTrim1D                    Float?    @default(0)
+  nRightTrim1D                   Float?    @default(0)
+  nSawKerfValue1D                Float?    @default(0)
+  sGroupReportTerms              String?   @db.VarChar(10)
+  nGroupReportIncludeProcessCost Int?      @db.UnsignedTinyInt
+  nItemReportVisibletoCustomer   Int?      @default(0) @db.UnsignedTinyInt
+  sItemwiseReportColumns         String?   @db.VarChar(50)
+  sBoardPrice                    String    @default("Level3Price") @db.VarChar(15)
+  bNoEdgebandReduction           Int?      @default(1) @db.UnsignedTinyInt
+  sCutPartsLabel7                String?   @db.VarChar(50)
+  sCutPartsLabel8                String?   @db.VarChar(50)
+  sCutPartsLabel9                String?   @db.VarChar(50)
+  sCutPartsLabel10               String?   @db.VarChar(50)
+  sCutPartsLabel11               String?   @db.VarChar(50)
+  sCutPartsLabel12               String?   @db.VarChar(50)
+  sCutPartsLabel13               String?   @db.VarChar(50)
+  sCutPartsLabel14               String?   @db.VarChar(50)
+  sCutPartsLabel15               String?   @db.VarChar(50)
+  nCutPartsLabel1CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel2CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel3CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel4CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel5CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel6CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel7CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel8CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel9CharLimit       String?   @db.VarChar(30)
+  nCutPartsLabel10CharLimit      String?   @db.VarChar(30)
+  nCutPartsLabel11CharLimit      String?   @db.VarChar(30)
+  nCutPartsLabel12CharLimit      String?   @db.VarChar(30)
+  nCutPartsLabel13CharLimit      String?   @db.VarChar(30)
+  nCutPartsLabel14CharLimit      String?   @db.VarChar(30)
+  nCutPartsLabel15CharLimit      String?   @db.VarChar(30)
+  nLabelCountnoofRows            Int?      @db.UnsignedInt
+  nLabelCountnoofColumns         Int?      @db.UnsignedInt
+  nMarginSettingTop              Float?
+  nMarginSettingBottom           Float?
+  nMarginSettingLeft             Float?
+  nMarginSettingRight            Float?
+  nLabelGapHorizontal            Float?
+  nLabelGapVartical              Float?
+  nLabelSizeWidth                Float?
+  nLabelSizeHeight               Float?
+  nnoofLinesPacking              Int?      @db.UnsignedInt
+  sStickerLabelCheckFields       String?   @db.VarChar(100)
+  sCalQtyLabel                   String?   @db.VarChar(30)
+  nItemReportSizesVisible        Int?      @default(1) @db.UnsignedTinyInt
+  bCutDirection                  Int?      @default(0) @db.UnsignedTinyInt
+  bRollMode                      Int?      @default(0) @db.UnsignedTinyInt
+  sProjectNoLabel                String?   @db.VarChar(30)
+  sDefLanguage                   String?   @db.Text
+  sRemarksAnneReportTerms        String?   @db.VarChar(10)
+  sRemarksAnneReportColumns      String?   @db.VarChar(20)
+  sGrossTotalLabel               String?   @db.VarChar(30)
+  sNetTotalLabel                 String?   @db.VarChar(30)
+  bFixed                         Int?      @db.TinyInt
+  nCreatedID                     Int?      @db.UnsignedInt
+  dtCreated                      DateTime? @db.DateTime(0)
+  nModifiedID                    Int?      @db.UnsignedInt
+  dtModified                     DateTime? @db.DateTime(0)
+  users                          muser[]
+}
