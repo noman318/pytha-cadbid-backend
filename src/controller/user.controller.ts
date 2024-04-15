@@ -59,16 +59,76 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
+// const getAllUsers = async (req: Request, res: Response) => {
+//   try {
+//     const page = parseInt(req.query.page as string) || 1;
+//     const perPage = parseInt(req.query.perPage as string) || 10;
+//     const skip = (page - 1) * perPage;
+//     const allUsers = await prisma.muser.findMany({
+//       // include: {
+//       //   mcompany: true,
+//       // },
+//       skip,
+//       take: perPage,
+//       select: {
+//         sName: true,
+//         sEmail: true,
+//         sLevel: true,
+//         sMobile: true,
+//         sUserName: true,
+//         sUserType: true,
+//         mcompany: {
+//           select: {
+//             sName: true,
+//           },
+//         },
+//       },
+//     });
+//     res.json(allUsers);
+//   } catch (error) {
+//     console.log("error", error);
+//   }
+// };
 const getAllUsers = async (req: Request, res: Response) => {
-  // const allUsers = await prisma.user.findMany({});
-  // res.json(allUsers);
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const perPage = parseInt(req.query.perPage as string) || 10;
+    const skip = (page - 1) * perPage;
+
+    const allUsers = await prisma.muser.findMany({
+      skip,
+      take: perPage,
+      select: {
+        nCompanyID: true,
+        sName: true,
+        sEmail: true,
+        sLevel: true,
+        sMobile: true,
+        sUserName: true,
+        sUserType: true,
+      },
+    });
+
+    // Map users to rename nCompanyID to id
+    const mappedUsers = allUsers.map((user) => ({
+      id: user.nCompanyID.toString(),
+      ...user,
+      // Remove the nCompanyID field
+      nCompanyID: undefined,
+    }));
+
+    res.json({ users: mappedUsers });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-// const getSingleUser = async (req: Request, res: Response) => {
-//   const { id } = req.params;
-//   // const user = await prisma.user.findUnique({ where: { id } });
-//   // res.json(user);
-// };
+const getSingleUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await prisma.muser.findUnique({ where: { nUserID: +id } });
+  res.json(user);
+};
 // const getUserById = async (nEmailUserID: string) => {
 //   try {
 //     const userId = parseInt(nEmailUserID);
@@ -118,4 +178,5 @@ interface CustomRequest extends Request {
 export default {
   createUser,
   getAllUsers,
+  getSingleUser,
 };

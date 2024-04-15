@@ -9,6 +9,6 @@ router
   .post(UserController.createUser);
 router.get("/all", UserController.getAllUsers);
 // router.post("/login", UserController.loginUser);
-// router.get("/:id", UserController.getSingleUser);
+router.get("/:id", UserController.getSingleUser);
 
 export default router;
